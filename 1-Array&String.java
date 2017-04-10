@@ -35,7 +35,7 @@ public class solution {
 	public boolean isUniqueChars(String str) {
 		if (str.length() > 128) return false;
 
-		boolean char_set = new boolean[128];
+		boolean[] char_set = new boolean[128];
 		//element default false
 		for (int i = 0; i < str.length(); i++) {
 			int val = str.charAt(i);
@@ -52,7 +52,7 @@ public class solution {
 //identical character counts
 boolean permutation(String s, String t) {
 	if (s.length() != t.length()) return false;
-	int letters = new int[128];
+	int[] letters = new int[128];
 
 	char s_array = s.toCharArray();
 	if (char c : s_array) {
@@ -68,7 +68,7 @@ boolean permutation(String s, String t) {
 	return true;
 }
 
-//sort the strings
+//sort both strings
 String sort(String s) {
 	char[] content = s.toCharArray();
 	java.util.Arrays.sort(content);
@@ -178,7 +178,7 @@ boolean permutation(String phrase) {
 		int x =getCharNumber(c);
 		if (x != -1) {
 			table[x]++;
-			if (countOdd % 2 ==1) {
+			if (table[x] % 2 ==1) {
 				countOdd++;
 			}
 			else {
@@ -202,7 +202,7 @@ int getCharNumber(Character c) {
 }
 
 //1.5 One Away
-//check replace and insert
+//check replace and insert separately
 boolean oneEditAway(String first, String second) {
 	if (first.length() == second.length()) {
 		return oneEditReplace(first, second);
@@ -239,11 +239,11 @@ boolean oneEditInsert(String s1, String s2) {
 				return false;
 			}
 			index2++;
-			//jump over the extra character
+			//jump over the inserted character
 		}
 		else {
 			index1++;
-			index2++
+			index2++;
 		}
 	}
 	return true;
@@ -256,7 +256,7 @@ boolean oneEditAway(String first, String second) {
 	}
 	String s1 = first.length() < second.length() ? first : second;
 	String s2 = first.length() < second.length() ? second : first;
-    
+        //shorter one -> s1; longer one -> s2
     int index1 = 0;
     int index2 = 0;
     boolean foundDifference = false;
@@ -290,6 +290,7 @@ String compress(String str) {
 	for (int i = 0; i < str.length(); i++) {
 		count++;
 		if (str.charAt(i) != str.charAt(i + 1) || i + 1 >= str.length()) {
+		//end of string is '\n'
 			compressed += "" + str.charAt(i) + count;
 		//a new copy of the string is created on each concatenation
 			count = 0;
@@ -307,8 +308,8 @@ String compress(String str) {
 		count++;
 		if (str.charAt(i) != str.charAt(i + 1) || i + 1 >= str.length()) {
 			compressed.append(str.charAt(i));
-		    compressed.append(count);
-		    count = 0;
+		        compressed.append(count);
+		        count = 0;
 		}
 	}
 	return compressed.length() < str.length() ? compressed.toString() : str;
