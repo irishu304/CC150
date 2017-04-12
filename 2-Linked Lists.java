@@ -149,6 +149,125 @@ LinkedListNode partition(LinkedListNode node, int x) {
 	return head;
 }
 
+//2.5 Sum Lists
+//start from lower digit
+LinkedListNode sum(LinkedListNode l1, LinkedListNode l2, int carry) {
+	if (l1 == null && l2 == null && carry == 0) 
+		return null;
+	LinkedListNode result = new LinkedListNode();
+	int value = carry;
+	if (l1 != null) value += l1.data;
+	if (l2 != null) value += l2.data;
+	result.data = value % 10; //remainder
+
+	//recurse???
+	if (l1 != null || l2 != null) {
+		//in case one list is shorter than another
+		LinkedListNode more = addLists(l1 == null ? null : l1.next,
+			                           l2 == null ? null : l2.next,
+			                           value >= 10 ? 1 : 0);
+		result.setNext(more);
+	}
+	return result;
+}
+
+//???
+LinkedListNode sum(LinkedListNode l1, LinkedListNode l2) {
+	if (l1 == null && l2 == null) return null;
+	if (l1 != null && l2 == null) return l1;
+	if (l1 == null && l2 != null) return l2;
+
+	LinkedListNode result = new LinkedListNode();
+	int carry = 0;
+	while (l1 != null || l2 != null || carry != 0) {
+		int sum = 0;
+		if (l1 != null) {
+			sum += l1.data;
+			l1 =l1.next;
+		}
+		if (l2 != null) {
+			sum += l2.data;
+			l2 = l2.next;
+		}
+		sum += carry;
+		result.data = sum % 10;
+		carry = sum / 10;
+		result = result.next;
+	}
+	return result;
+}
+
+//start from higher digit
+class Partialsum {
+	public LinkedListNode sum = null;
+	public int carry = 0;
+}
+
+LinkedListNode addLists(LinkedListNode l1, LinkedListNode l2) {
+	int len1 = length(l1);
+	int len2 = length(l2);
+	//pad the shorter list with zeros at higher digits
+	if (len1 < len2) {
+		l1 = padList(l1, len2 - len1);
+	}
+	else {
+		l2 = padList(l2, len1 - len2);
+	}
+	//add a list, if there was a carry value, insert it at the front of list
+	//if not, just return the linked list
+	Partialsum addition = addListHelper(l1, l2);
+	if (addition.carry == 0) {
+		return addition.sum;
+	}
+	else {
+		LinkedListNode result =insertBefore(addition.sum, addition.carry);
+		return result;
+	}
+}
+
+Partialsum addListsHelper(LinkedListNode l1, LinkedListNode l2) {
+	if (l1 == null && l2 == null) {
+		Partialsum addition = new Partialsum();
+		return addition;
+	}
+	//add lower digits
+	Partialsum addition = addListsHelper(l1.next, l2.next);
+	//add carry to current data
+	int val = addition.carry + l1.data + l2.data;
+	//insert addtion of current digit
+	LinkedListNode full_result = insertBefore(addition.sum, val % 10);
+	//return sum&carry so far
+	addition.sum = full_result;
+	addition.carry = val / 10;
+	return addition;
+}
+
+LinkedListNode padList(LinkedListNode n, int padding) {
+	LinkedListNode head = n;
+	for (int i = 0; i < padding; i++) {
+		head = insertBefore(head, 0);
+	}
+	return head;
+}
+
+//insert node in front of a linked list
+LinkedListNode insertBefore(LinkedListNode m, int data) {
+	LinkedListNode node = new LinkedListNode(data);
+	if (m != null) {
+		node.next = m;
+	}
+	return node;
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
