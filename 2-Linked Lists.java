@@ -48,7 +48,7 @@ LinkedListNode kthToLast(LinkedListNode head, int k) {
 	return kLast(head, k, idx);
 }
 
-LinkedListNode klast(LinkedListNode head, int k, Index idx) {
+LinkedListNode kLast(LinkedListNode head, int k, Index idx) {
 	if (head == null) return null;
 	LinkedListNode node = klast(head.next, k, idx);
 	idx.value = idx.value + 1;
@@ -259,8 +259,61 @@ LinkedListNode insertBefore(LinkedListNode m, int data) {
 	return node;
 }
 
+//2.6 Palindrome
+//reverse&compare
+boolean isPalindrome(LinkedListNode head) {
+	LinkedListNode reversed = reverseAndClone(head);
+	return isEqual(reversed, head);
+}
 
+LinkedListNode reverseAndClone(LinkedListNode node) {
+	LinkedListNode head = null;
+	while (node != null) {
+		LinkedListNode n = new LinkedListNode(node.data); //clone
+		n.next = head;
+		head = n;
+		node = node.next;
+		//insert in front
+	}
+}
 
+boolean isEqual(LinkedListNode one, LinkedListNode two) {
+	while (one != null && two != null) {
+		if (one.data != two.data) return false;
+		one = one.next;
+		two = two.next;
+	}
+	return one == null && two == null;
+}
+
+//iterate
+boolean isPalindrome(LinkedListNode head) {
+	LinkedListNode fast = head;
+	LinkedListNode slow = head;
+	Stack<Integer> stack = new Stack<Integer>();
+
+	//push elements in the first half of list into stack
+	while (fast != null && fast.next != null) {
+		stack.push(slow.data);
+		slow = slow.next;
+		fast = fast.next.next;
+	}
+
+	//if even elements, fast stop at end.next==null, 
+	//slow stop at second half beginnning.
+	//if odd elemnt, fast stop at end, slow stop at middle,
+	//skip middle, then slow moves to the second half of list.
+	if (fast != null) {
+		slow = slow.next;
+	}
+	//compare
+	while (slow != null) {
+		int top = stack.pop().intValue();
+		if (top != slow.data) return false;
+		slow = slow.next;
+	}
+	return true;
+}
 
 
 
