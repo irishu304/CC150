@@ -315,6 +315,56 @@ boolean isPalindrome(LinkedListNode head) {
 	return true;
 }
 
+//2.7 Intersection
+LinkedListNode intersection(LinkedListNode list1, LinkedListNode list2) {
+	if (list1 == null || list2 == null) return null;
+	Result result1 = getTailAndSize(list1);
+	Result result2 = getTailAndSize(list2);
+	if (result1.tail != result2.tail) return null;
+
+	LinkedListNode shorter = result1.size < result2.size ? list1 : list2;
+	LinkedListNode longer = result1.size < result2.size ? list2 : list1;
+
+	//advance pointer for the longer list
+	longer = getKthNode(longer, Math.abs(result1.size - result2.size));
+
+	//move both pointers until have collision
+	if (shorter != longer) {
+		shorter = shorter.next;
+		longer = longer.next;
+	}
+	return longer;
+}
+
+class Result {
+	public LinkedListNode tail;
+	public int size;
+	public Result(LinkedListNode tail, int size) {
+		this.tail = tail;
+		this.size = size;
+	}
+}
+
+Result getTailAndSize(LinkedListNode list) {
+	if (list == null) return null;
+	int size = 1;
+	LinkedListNode current = list;
+	while (current.next != null) {
+		size++;
+		current = current.next;
+	}
+	return new Result(current, size);
+}
+
+LinkedListNode getKthNode(LinkedListNode head, int k) {
+	LinkedListNode current = head;
+	while (k > 0) {
+		current = current.next;
+		k--;
+	}
+	return current;
+}
+
 
 
 
