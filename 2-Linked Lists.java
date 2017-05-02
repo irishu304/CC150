@@ -365,7 +365,32 @@ LinkedListNode getKthNode(LinkedListNode head, int k) {
 	return current;
 }
 
+//2.8 Loop Detection
+LinkedListNode findBeginning(LinkedListNode head) {
+	LinkedListNode slow = head;
+	LinkedListNode fast = head;
 
+    //find meeting point
+    while (fast != null && fast.next != null) {
+    	fast = fast.next.next;
+    	slow = slow.next;
+    	if (fast == slow) break;
+    }
+
+    //error checking, if no meeting, then no collision
+    if (fast == null || fast.next == null) {
+    	return null;
+    }
+
+    //slow->head, fast->meeting; each are k steps from loop start
+    //move at same pace, meet at loop start
+    slow = head;
+    while (slow != fast) {
+    	slow = slow.next;
+    	fast = fast.next;
+    }
+    return fast;
+}
 
 
 
