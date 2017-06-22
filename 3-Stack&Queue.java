@@ -86,6 +86,7 @@ public class StackWithMin extends Stack<NodeWithMin> { //inherit
 		int newMin = Math.min(value, min());
 		super.push(new NodeWithMin(value, newMin));
 	}
+	//compare value with current min, result is newMin, and push it to peek
 
 	public int min() {
 		if (this.isEmpty()) {
@@ -105,8 +106,217 @@ class NodeWithMin {
 		this.min = min;
 	}
 }
+//super is used to access methods of the base class 
+//this is used to access methods of the current class
 
-//use an additional stack to track mins
+//use an additional stack s2 to track mins
+public class StackWithMin2 extends Stack<Integer> {
+	Stack<Integer> s2;
+	public StackWithMin2() {
+		s2 = new Stack<Integer>();
+	}
+
+	public void push(int value) {
+		if (value <= min()) {
+			s2.push(value);
+		}
+		super.push(value);
+	} //push a newMin at s2 peek
+
+	public Integer pop() {
+		int value = super.pop();
+		if (value == min()) {
+			s2.pop();
+		}
+		return value;
+	} //if the newMin is popped out, pop it out from s2
+
+	public int min() {
+		if (s2.isEmpty()) {
+			return Integer.MAX_VALUE; //error value
+		}
+		else {
+			return s2.peek();
+		} //current min is always at s2 peek
+	}
+}
+
+//3.3 Stack of Plates
+public class SetOfStacks {
+	ArrayList<Stack> stacks = new ArrayList<Stack>();
+	public int capacity;
+	public SetOfStacks(int capacity) {
+		this.capacity = capacity;
+	}
+
+	public Stack getLastStack() {
+		if (stacks.size() == 0) return null;
+		return stacks.get(stacks.size() - 1);
+	}
+
+	public void push (int v) {
+		Stack last = stacks.getLastStack();
+		if (last != null && !last.isFull()) {
+			last.push(v);
+		}
+		else { //if full, creat a new stack at the end
+			Stack stack = new Stack(capacity);
+			stack.push(v);
+			stacks.add(stack);
+		}
+	}
+
+	public void pop() {
+		Stack last = stacks.getLastStack();
+		if (last == null)  throw new EmptyStackException();
+		int v = last.pop();
+		if (last.size == 0) stacks.remove(stacks.size() - 1);
+		return v;
+	}
+
+	public boolean isEmpty() {
+		Stack last = stacks.getLastStack();
+		return last == null || last.isEmpty();
+	}
+
+	public int popAt(int index) {
+		return leftShift(index, true);
+	}
+
+	public int leftShift(int index, boolean removeTop) {
+		Stack stack = stacks.get(index);
+		int removed_item;
+		if (removeTop) removed_item = stack.pop();
+		else removed_item = stack.removeBottom();
+		if (stack.isEmpty()) {
+			stacks.remove(index);
+		}
+		else if (stacks.size > index + 1) {
+			int v = leftShift(index + 1, false);
+			stack.push(v);
+		}
+		return removed_item;
+	} //???
+}
+
+public class Stack {
+	private int capacity;
+	public Node top, bottom;
+	public int size = 0;
+
+	public Stack(int capactiy) { this.capacity = capacity};
+	public boolean isFull() { return capacity == size};
+
+	public void join(Node above, Node below) {
+		if (below != null) below.above = above;
+		if (above != null) above.below = below;
+	}
+
+	public boolean push(int v) {
+		if (size >= capacity) return false;
+		size++;
+		Node n = new Node();
+		if (size == 1) bottom = n;
+		join(n, top);
+		top = n;
+		return true;
+	}
+
+	public int pop() {
+		Node t = top;
+		top = top.below;
+		size--;
+		return t.value;
+	}
+
+	public boolean isEmpty() {
+		return size = 0;
+	}
+
+	public int removeBottom() {
+		Node b = bottom;
+		bottom = bottom.above;
+		if (bottom != null) bottom.below = null;
+		size--;
+		return b.value;
+	}
+}
+
+//3.4 Queue via Stacks
+public class MyQueue<T> {
+	Stack<T> stackNewest, stackOldest;
+	public MyQueue() {
+		stackNewest = new Stack<T>(); //used for input
+		stackOldest = new Stack<T>(); //used for output
+	}
+
+	public int size() {
+		return stackNewest.size() + stackOldest.size();
+	}
+
+	//push onto stackNewest, which always has newest element on top
+	public void add(T value) {
+		stackNewest.push(value);
+	}
+
+	//shift elements from stackNewest into stackOldest
+	//so we always do operations on stackOldest
+	private void shiftStacks() {
+		if (stackOldest.isEmpty()) {
+			while (!stackNewest.isEmpty()) {
+				stackOldest.push(stackNewest.pop());
+			}
+		}
+	}
+
+	public T peek() {
+		shiftStacks(); //ensure stackOldest has current elements
+		return stackOldest.peek(); //retrieve the oldest value
+	}
+
+	public T remove() {
+		shiftStacks();
+		return stackOldest.pop(); //pop the oldest item
+	}
+	//define three ops: add, peek, remove
+}
+
+//3.5 Sort Stacks
+void sort(Stack<Integer> s) {
+	Stack<Integer> r = new Stack<Integer>();
+
+	//insert each element in s in sorted order into r
+	while (!s.isEmpty()) {
+		int temp = s.pop();
+		while (!r.isEmpty() && r.peek() > temp) {
+			s.push(r.pop());
+		}
+		r.push(temp);
+	}
+    
+    //copy the elements from r back into s
+    while(!r.isEmpty()) {
+    	s.push(r.pop());
+    }
+}
+//O(N^2) time, O(N) space
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
