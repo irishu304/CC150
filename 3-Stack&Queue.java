@@ -301,27 +301,59 @@ void sort(Stack<Integer> s) {
 }
 //O(N^2) time, O(N) space
 
+//3.6 Animal Shelter
+abstract class Animal {
+	private int order;
+	protected String name;
+	public Animal(String n) {name = n};
+	public setOrder(int ord) {order = ord};
+	public int getOrder() {return order};
+	public boolean isOlderThan(Animal a) {
+		return this.order < a.getOrder();
+	}
+} //abstract class, only statement, no instance
 
+class AnimalQueue {
+	LinkedList<Dog> dogs = new LinkedList<Dog>();
+	LinkedList<Cat> cats = new LinkedList<Cat>();
+	private int order = 0; //timestamp
 
+	public void enqueue(Animal a) {
+		a.setOrder(order);
+		order++;
+		//the older one has smaller order value
 
+		//test if an object is an instance of a specific class
+		//return boolean
+		if (a instanceof Dog) dogs.addLast(Dog(a));
+		else if (a instanceof Cat) cats.addLast(Cat(a));
+	}
 
+	public Animal dequeueAny() {
+		if (dogs.size() == 0) return dequeueCat();
+		else if (cats.size() == 0) return dequeueDog();
+		//check top of cats&dogs, pop the oldest animal
+		Dog dog = dogs.peek();
+		Cat cat = cats.peek();
+		if (dog.isOlderThan(cat)) return dequeueDog();
+		else return dequeueCat();
+	}
 
+	public Cat dequeueCat() {
+		return cats.poll();
+	}
+	public Dog dequeueDog() {
+		return dogs.poll();
+	}
+	//when queue is empty, remove() throws an exception
+	//poll() return null 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	public class Dog extends Animal {
+		public Dog(String n) {super n};
+	}
+	public class Cat extends Animal {
+		public Cat(String n) {super n};
+	} //use variable n in base class Animal
+}
 
 
