@@ -137,7 +137,7 @@ boolean isBalanced(TreeNode root) {
 //O(N) time, O(height) space
 
 //4.5 Check Balanced
-//in-order traveral, assume no duplicate values
+//in-order traversal, assume no duplicate values
 Integer last_printed = null;
 boolean checkBST(TreeNode n) {
 	if (n == null) return true;
@@ -197,6 +197,107 @@ TreeNode leftmostChild(TreeNode n) {
 	}
 	return n;
 }
+
+//4.7 Builder Order
+//DFS
+Stack<Project> findBuildOrder(String[] projects, String[][] dependencies) {
+	Graph graph = buildGraph(projects, dependencies);
+	return orderProjects(graph.getNodes());
+}
+
+Stack<Project> orderProjects(ArrayList<Project> projects) {
+	Stack<Project> stack = new Stack<Project>();
+	for (Project project : projects) {
+		if (project.getState() == Project.State.Blank) {
+			if(!doDFS(project, stack)) {
+				return null;
+			}
+		}
+	}
+	return stack;
+}
+
+boolean doDFS(Project project, Stack<Project> stack) {
+	if (project.getState() == Project.State.Partial) {
+		return false;
+	} //cycle exists
+	if (project.getState() == Project.State.Blank) {
+		project.setState(Project.State.Partial);
+		ArrayList<Project> children = project.getChildren();
+		for (Project child : children) {
+			if (!doDFS(child, stack)) {
+				return false;
+			}
+		}
+		project.setState(Project.State.Complete);
+		stack.push(project);
+	}
+	return true;
+}
+
+Graph buildGraph(String[] projects. String[][] dependencies) {
+	Graph graph = new Graph();
+	for (String project : projects) {
+		graph.createNode(project);
+	}
+	for (String[] dependency : dependencies) {
+		String first = dependency[0];
+		String second = dependency[1];
+		graph.addEdge(first, second);
+	}
+	return graph;
+}
+
+public class Graph {
+	private ArrayList<Project> nodes = new ArrayList<Project>();
+	private HashMap<String, Project> map = new HashMap<String, Project>();
+
+	public Project getOrCreateNode(String name) {
+		if (!map.containsKey(name)) {
+			Project node = new Project(name);
+			nodes.add(node);
+			map.put(name, node);
+		}
+		return map.get(name);
+	}
+
+	public void addEdge(String startName, String endName) {
+		Project start = getOrCreateNode(startName);
+		Project end = getOrCreateNode(endName);
+		start.addNeighbor(end);
+	}
+
+	public ArrayList<Project> getNodes() { return nodes };
+}
+
+public class Project {
+	public enum State {Complete, Partial, Blank};
+	private State state = State.Blank;
+	public State getState() { return state };
+	public void setState(State st) { state = st };
+
+    private ArrayList<Project> children = new ArrayList<project>();
+    private HashMap<String, Project> map = new HashMap<String, Project>();
+    private String name;
+    private int dependencies 0;
+
+    public Project(String n) {name n;}
+
+    public void addNeighbor(Project node) {
+        if (!map . containsKey(node.getName())) {
+            children . add(node) ;
+            map . put(node.getName() , node);
+            node.incrementDependencies();
+        }
+    }
+    public String getName() { return name; }
+    public ArrayList<Project > getChildren() { return childr en; }
+    public int getNumberDependencies() { return dependencies; }
+}
+//O(prject # + dependency #) time
+
+//4.8 First Common Ancestor
+
 
 
 
