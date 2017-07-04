@@ -284,26 +284,252 @@ public class Project {
     public Project(String n) {name n;}
 
     public void addNeighbor(Project node) {
-        if (!map . containsKey(node.getName())) {
-            children . add(node) ;
-            map . put(node.getName() , node);
+        if (!map. containsKey(node.getName())) {
+            children.add(node) ;
+            map.put(node.getName(), node);
             node.incrementDependencies();
         }
     }
     public String getName() { return name; }
-    public ArrayList<Project > getChildren() { return childr en; }
+    public ArrayList<Project> getChildren() { return children; }
     public int getNumberDependencies() { return dependencies; }
 }
 //O(prject # + dependency #) time
 
 //4.8 First Common Ancestor
+//with links to parents
+TreeNode commonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+	//Check if either node is not in the tree, or if one covers the other
+	if (!covers(root, p) || !covers(root, q)) {
+		return null;
+	} else if (covers(p, q)) {
+		return p;
+	} else if (covers(q, p)) {
+		return q;
+	}
+	TreeNode sibling = getSibling(p);
+	TreeNode parent = p.parent;
+	while (!covers(sibling, q)) {
+		sibling = getSibling(parent);
+		parent = parent.parent;
+	}
+	return parent;
+}
 
+boolean covers(TreeNode root, TreeNode p) {
+	if (root == null) return false;
+	if (root == p) return true;
+	return covers(root.left, p) || covers(root.right, p);
+}
 
+TreeNode getSibling(TreeNode node) {
+	if (node == null || node.parent == null) return null;
+	TreeNode parent = node.parent;
+	parent.left == node ? parent.right : parent.left;
+}
+//O(t) time, t is size of common ancestor subtree
+//worst case O(n) time, n is nodes # in tree
 
+//4.9 BST Sequences
+ArrayList<LinkedList<Integer>> allSequences(Treenode node) {
+	ArrayList<LinkedList<Integer>> result = 
+	new ArrayList<LinkedList<Integer>>();
+	if (node == null) {
+		result.add(new LinkedList<Integer>());
+		return result;
+	}
 
+	LinkedList<Integer> prefix = new LinkedList<Integer>();
+	prefix.add(node.data);
 
+	//recurse on left&right subtrees
+	ArrayList<LinkedList<Integer>> leftSeq = allSequences(node.left);
+	ArrayList<LinkedList<Integer>> rightSeq = allSequences(node.right);
+	//weave together each list from left&right sides
+	for (LinkedList<Integer> left : leftSeq) {
+		for (LinkedList<Integer> right : rightSeq) {
+			ArrayList<LinkedList<Integer>> weaved = 
+			new ArrayList<LinkedList<Integer>>();
+			weaveLists(left, right, weaved, prefix);
+			result.addAll(weaved);
+		}
+	}
+	return result;
+}
 
+/* Weave lists together in all possible ways. This algorithm works by 
+removing the head from one list, recursing, and then doing the same thing 
+with the other list. */
+void weaveLists(LinkedList<Integer> left, LinkedList<Integer> right,
+	ArrayList<LinkedList<Integer>> weaved, LinkedList<Integer> prefix) {
+	//One list is empty. Add remainder to prefix and store result
+		if (first.size() == 0 || second.size() == 0) {
+		LinkedList<Integer> result = (LinkedList<Integer>) prefix.clone();
+		result.addAll(first);
+		result.addAll(second);
+		results.addAll(result);
+		return;
+	}
 
+	/* Recurse with head of first added to the prefix. Removing the head 
+	will damage first, so we'll need to put it back where we found it 
+	afterwards */
+	int headFirst = first.removeFirst();
+	prefix.addLast(headFirst);
+	weaveLists(first, second, results, prefix);
+	prefix.removeLast();
+	first.addFirst(headFirst);
+
+	//Do the same thing with second, damaging and then restoring the list
+	int headSecond = second.removeFirst();
+	prefix.addLast(headSecond);
+    weaveLists(first, second, results, prefix);
+    prefix.removeLast();
+    second.addFirst(headSecond);
+}
+
+//4.10 Check Subtree
+//check pre-order substring
+boolean containsTree(TreeNode t1, TreeNode t2) {
+	StringBuilder string1 = new StringBuilder();
+	StringBuilder string2 = new StringBuilder();
+	gerOrderString(t1, string1);
+	getOrderString(t2, string2);
+	return string1.indexOf(string2.toString()) != -1; 
+	//indexOf(), if not found, return -1
+}
+
+void getOrderString(TreeNode node, StringBuilder s) {
+	if (node == null) {
+		s.append(null);
+		return;
+	} //add null indicator for empty nodes
+	s.append(node.data + " "); //pre-order, add root first
+	getOrderString(node.left, s); //add left
+	getOrderString(node.right, s); // add right
+}
+//O(n+m) time&space. n = t1 nodes #, m = t2 nodes #, simpler tree.
+
+//larger tree, check every time t2's root appears in t1
+boolean containsTree(TreeNode t1, TreeNode t2) {
+	if (t2 == null) return true;
+	return subTree(t1, t2);
+}
+
+boolean subTree(TreeNode r1, TreeNode r2) { //larger tree r1
+    if (r1 == null) return false; //r2 is not null as checked above
+    else if (r1.data == r2.data && matchTree(r1, r2)) return true;
+    return subTree(r1.left, r2) || subTree(r1.right, r2);
+}
+
+boolean matchTree(TreeNode r1, TreeNode r2) {
+	if (r1 == null && r2 == null) return true;
+	else if (r1 == null || r2 == null) return false;
+	else if (r1.data != r2.data) return false;
+	else {
+	return matchTree(r1.left, r2.left) && matchTree(r1.right, r2.right);
+	}
+}
+//O(n+km) time, k = r2's root occurence times. O(log n + log m) space
+
+//4.11 Random Nodes
+//possibility of going left/right depends on nodes # of left/right
+class TreeNode {
+	private int data;
+	public TreeNode left;
+	public TreeNode right;
+	private int size = 0; //store a size variable in each node
+
+	public TreeNode(int d) {
+		data = d;
+		size = 1;
+	}
+
+	public TreeNode getRandomNode() {
+		int leftSize = left == null ? 0 : left.size();
+		Random random = new Random();
+		int index = random.nextInt(size);
+		if (index < leftSize) {
+			return left.getRandomNode();
+		} else if (index == leftSize) {
+			return this;
+		} else {
+			return right.getRandomNode();
+		}
+	}
+
+	public void insertInOrder(int d) {
+		if (d <= data) {
+			if (left == null) {
+				left = new TreeNode(d);
+			} else {
+				left.insertInOrder(d);
+			}
+		} else {
+			if (right == null) {
+				right = new TreeNode(d);
+			} else {
+				right.insertInOrder(d);
+			}
+		}
+		size++;
+	}
+
+	public int size() { return size };
+	public int data() { return data };
+
+	public TreeNode find(int d) {
+		if (d == data) {
+			return this;
+		} else if (d <= data) {
+			return left != null ? left.find(d) : null;
+		} else if (d > data) {
+			return right != null ? right.find(d) : null;
+		}
+		return null;
+	}
+}
+//O(log n) time in a balanced tree
+
+//4.12 Paths with Sum
+//brute force
+int count (TreeNode root, int targetSum) {
+	if (root == null) return 0;
+	//count paths with sum starting from root
+	int pathRoot = countNode(root, targetSum, 0);
+	//try nodes on left or right
+	int pathLeft = count(root.left, targetSum);
+	int pathRight = count(root.right, targetSum);
+	return pathRoot + pathLeft + pathRight;
+}
+
+int countNode(TreeNode node, int targetSum, int currentSum) {
+	if (node == null) return 0;
+	currentSum += node.data;
+
+	int totalPath = 0;
+	if (currentSum == targetSum) totalPath++;
+	totalPath += countNode(node.left, targetSum, currentSum);
+	totalPath += countNode(node.right, targetSum, currentSum);
+	return totalPath;
+}
+//O(N log N) time
+
+//optimized
+int count (TreeNode root, int targetSum) {
+	return count(root, targetSum, 0, new HashMap<Integer, Integer>());
+}
+int count(TreeNode node, int targetSum, int runningSum, 
+	      HashMap<Integer, Integer> pathCount) {
+	if (node == null) return 0;
+
+	//count paths with sum ending in current node
+	runningSum += node.data;
+	int sum = runningSum - targetSum;
+	int totalPath = pathCount.getOrDefault(sum, 0); //return hashmap value
+    //If runningSum equals targetSum, add one path starts at root
+    if (runningSum == targetSum) totalPath++;
+}
 
 
 
