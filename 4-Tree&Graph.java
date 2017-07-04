@@ -519,6 +519,7 @@ int countNode(TreeNode node, int targetSum, int currentSum) {
 int count (TreeNode root, int targetSum) {
 	return count(root, targetSum, 0, new HashMap<Integer, Integer>());
 }
+//use hash table to find path # for a specific sum value
 int count(TreeNode node, int targetSum, int runningSum, 
 	      HashMap<Integer, Integer> pathCount) {
 	if (node == null) return 0;
@@ -529,19 +530,24 @@ int count(TreeNode node, int targetSum, int runningSum,
 	int totalPath = pathCount.getOrDefault(sum, 0); //return hashmap value
     //If runningSum equals targetSum, add one path starts at root
     if (runningSum == targetSum) totalPath++;
+
+    //Increment pathCount, recurse, then decrement pathCount
+    incrementHT(pathCount, runningSum, 1);
+    totalPath += count(node.left, targetSum, runningSum, pathCount);
+    totalPath += count(node.right, targetSum, runningSum, pathCount);
+    incrementHT(pathCount, runningSum, -1);
+
+    return totalPath;
 }
 
+void incrementHT(int HashMap<Integer,Integer> hashTable,int key,int delta){
+	int newCount = hashTable.getOrDefault(key, 0) + delta;
+	if (newCount == 0) {
+		hashTalbe.remove(key); //when 0 remove to reduce space
+	} else {
+		hashTable.add(key, newCount);
+	}
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//O(N) time, traverse each node only once, do O(1) work each time
+//O(log N) space in balanced tree
