@@ -326,7 +326,7 @@ void sortPV(int[] array) {
 
 int biggestIndex(int[] array, int a, int b, int c) {
 	int len = array.length;
-	int aValue = (a >= 0 && a < len ? array[a] : Integer.MIN_VALUE);
+	int aValue = (a >= 0 && a < len ? array[a] : Integer.MIN_VALUE); //???
 	int bValue = (b >= 0 && b < len ? array[b] : Integer.MIN_VALUE);
 	int cValue = (c >= 0 && c < len ? array[c] : Integer.MIN_VALUE);
 
