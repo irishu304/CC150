@@ -250,95 +250,21 @@ boolean findElement (int[][] matrix, int elem) {
 }
 //O(m log n), column # m, row # n
 
-//binary search the diagonal, divide the matrix into four rigions
-//remove top left (smaller) and bottom right (greater) regions
 
-//10.10 Rank from Stream
-RankNode root = null;
-void track(int number) {
-	if (root == null) {
-		root = new RankNode(number);
-	} else {
-		root.insert(number);
-	}
-}
 
-int getRankOfNumber(int number) {
-	return root.getRank(number);
-}
 
-public class RankNode {
-	public RankNode left, right;
-	public int data = 0;
-	public int left_size = 0;
-	public RankNode(int d) {
-		data = d;
-	}
-    public void insert(int d) {
-    	if (d <= data) {
-    		if (left != null) left.insert(d);
-    		else left = new RankNode(d);
-    		left_size++;
-    	} else {
-    		if (right != null) right.insert(d);
-    		else right = new RankNode(d);
-    	}
-    }
-    public int getRank(int d) {
-    	if (d == data) return left_size;
-    	else if (d < data) {
-    		if (left == null) return -1; //not found case
-    		else return left.getRank(d);
-    	} else {
-    		if (right == null) return -1;
-    		else {
-    			int right_size = right.getRank(d);
-    			return left_size + 1 + right_size;
-    		}
-    	}
-    }
-}
-//O(log N) time on a balanced tree. O(N) time on unbalanced tree.
 
-//10.11 Peaks and Valleys
-//sort then swap every two elements
-void sortPV(int[] array) {
-	Arrays.sort(array);
-	for (int i = 1; i < array.length; i += 2) {
-		swap(array, i - 1, i);
-	}
-}
- void swap (int[] array, int left, int right) {
- 	int temp = array[left];
- 	array[left] = array[right];
- 	array[right] = temp;
-}
-//O(n log n) time
 
-void sortPV(int[] array) {
-	for (int i = 1; i < array.length; i += 2) {
-		int biggestIndex = maxIndex(array, i - 1, i , i + 1);
-		if (i != biggest) {
-			swap(array, i, biggestIndex);
-		}
-	}
-}
 
-int biggestIndex(int[] array, int a, int b, int c) {
-	int len = array.length;
-	int aValue = (a >= 0 && a < len ? array[a] : Integer.MIN_VALUE);
-	int bValue = (b >= 0 && b < len ? array[b] : Integer.MIN_VALUE);
-	int cValue = (c >= 0 && c < len ? array[c] : Integer.MIN_VALUE);
 
-	int max = Math.max(aValue, Math.max(bValue, cValue));
-	if (max == aValue) return a;
-	else if (max == bValue) return b;
-	else return c;
-}
 
-void swap(int[] array, int left, int right) {
-	int temp = array[left];
-	array[left] = array[right];
-	array[right] = temp;
-}
-//O(n) time
+
+
+
+
+
+
+
+
+
+
