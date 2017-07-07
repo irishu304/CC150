@@ -48,7 +48,7 @@ void sort(String[] array) {
 			array[index] = t;
 			index++;
 		}
-	} //move to nex sorted string key
+	} //move to next sorted string key
 }
 
 String sortChars(String s) {
@@ -58,7 +58,7 @@ String sortChars(String s) {
 }
 //HashMapList<String, Integer> is a HashMap that maps from Strings to
 //ArrayList<Integer>.
-//http://blog.csdn.net/qiulongtianshi/article/details/8146717 ???
+//http://blog.csdn.net/qiulongtianshi/article/details/8146717
 
 //10.3 Search in Rotated Array
 int search(int[] a, int left, int right, int x) {
@@ -159,7 +159,96 @@ int search(String[] strings, String str, int first, int last) {
 }
 //O(n) time in worst case
 
+//10.6 Sort Big File
+/* We only bring part of the data into memory.
+We'll divide the file into chunks, which are x megabytes each, where x is 
+the amount of memory we have available. Each chunk is sorted separately 
+and then saved back to the file system. Once all the chunks are sorted, we 
+merge the chunks, one by one. At the end, we have a fully sorted file.
+This algorithm is known as external sort. */
 
+//10.7 Missing Int
+/* 1. Create a bit vector (BV) with 4 billion bits. Recall that a bit 
+vector  is an array that compactly stores boolean values by using an array 
+of ints (or another data type). Each int represents 32 boolean values.
+2. Initialize BV with all Os.
+3. Scan all numbers (num) from the file and call BV.set (num, 1).
+4. Now scan again BV from the Oth index.
+5. Return the first index which has a value of 0. */
+long numberOfInts = ((long) Integer.MAX_VALUE + 1);
+byte[] bitfield = new byte[(int) (numberOfInts) / 8];
+String filename = ...
+
+void findOpenNumber() throws FileNotFoundException {
+	Scanner in = new Scanner(new FileReader(filename));
+	while (in.hasNextInt()) {
+		int n = in.nextInt();
+		/* Find the corresponding number in bitfield by using OR operator 
+		bit by bit to set the nth bit of a byte (eg. 10 would correspond 
+		to the 2nd bit of index 2 in the byte array */
+		bitfield [n / 8] |= 1 << b % 8;
+	}
+
+	for (int i = 0; i < bitfield.length; i++) {
+		for (int j = 0; j < 8; j++) {
+			//Retrieve the individual bits of each byte
+			//When 0 bit is found, print corresponding value 
+			if ((bitfield[i] & (1 << j)) == 0) {
+				System.out.println(i * 8 + j);
+				return;
+			}
+		}
+	}
+}
+
+//10.8 Find Duplicates
+void checkDuplicates(int[] array) {
+	BitSet bs = new BitSet(32000);
+	for (int i = 0; i < array.length; i++) {
+		int num = array[i];
+		int num0 = num - 1; //bitset start at 0, numbers start at 1
+		if (bs.get(num0)) { //if already exists, print it
+			System.out.println(num);
+		} else {
+			bs.set(num0);
+		}
+	}
+}
+
+class BitSet { //???
+	int[] bitset;
+	public BitSet(int size) {
+		bitset = new int[(size >> 5) + 1]; //divide by 32
+	}
+	boolean get(int pos) {
+		int wordNumber = (pos >> 5);
+		int bitNumber = (pos & 0x1F); //mod 32
+		return (bitset[wordNumber] & (1 << bitNumber)) != 0;
+	}
+	void set(int pos) {
+		int wordNumber = (pos >> 5);
+		int bitNumber = (pos & 0x1F);
+		bitset[wordNumber] |= 1 << bitNumber;
+	}
+} 
+
+//10.9 Sorted Matrix Search
+//simply do binary search on each row
+boolean findElement (int[][] matrix, int elem) {
+	int row = 0;
+	int col = matrix[0].length - 1;
+	while (row < matrix.length && col >= 0) {
+		if (matrix[row][col] == element) {
+			return true;
+		} else if (matrix[row][col] > element) {
+			col--;
+		} else {
+			row++;
+		}
+	} //cut the matrix into a smaller one
+	return false;
+}
+//O(m log n), column # m, row # n
 
 
 
