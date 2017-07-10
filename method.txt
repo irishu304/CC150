@@ -34,7 +34,8 @@ Date
 Date nowTime = new Date(); //Sun Jul 9 18:48:00 EST
 
 Calendar calendar = Calendar.getInstance();
-public final void set(int year, int month, int date, int hour, int minute, int second);
+public final void set(int year, int month, int date, int hour, int minute, 
+int second);
 
 Math
 //contains two static constant E & PI
@@ -50,4 +51,59 @@ Random random = new Random();
 random.nextInt(); //random integer
 random.nextInt(int n); //random integer in [0, n)
 random.nextBoolean();
+
+LinkedList<int> //not in order, simple to insert/delete.    
+int size();
+boolean add(int data); //add node at the end
+boolean remove(int data); //remove first node contains data
+void add(int index, int data);
+void addFirst(int data); void addLast(int data);
+int set(int index, int data); //return data being replaced
+int get(int index); //return data
+int getFirst(); int getLast();
+int indexOf(int data); //return first node contains data, else return -1
+int lastIndexOf(int data); //return last node contains data
+int remove(int index); //delete the node
+int removeFirst(); int removeLast(); //return node’s data
+void clear(); //delete all nodes, get a null linked list
+boolean contains(int data);
+
+//use iterator for shorter time
+Iterator<Integer> iter = list.iterator();
+while (iter.hasNext()) {
+	Integer n = iter.next();
+	System.out.printf(“ “, n.intValue());
+}
+
+public static sort(List<E> list; //sort in increasing order
+public static void shuffle(List<E> list); //shuffling randomly
+public static void rotate(List<E> list, int distance); //positive >>
+public static void reverse(List<E> list);
+//ArrayList: in order, simple to search
+
+Stack
+push(int item);
+int pop();
+int peek(); //return top value, not delete item
+int search(int data); //top index is 1
+boolean empty();
+
+HashMap<Key, Value>
+HashMap<String, Student> hash table = HashSet<String, Student>();
+boolean isEmpty();
+int size(); 
+boolean containsKey(String key); boolean containsValue(int value);
+put(String key, int value); 
+int get(String key); //return value
+int remove(String key); //remove key/value pair, return value
+
+TreeSet<int>
+//left < right, lower level < upper level, in value’s increasing order
+int size();
+boolean isEmpty();
+void clear();
+boolean add(int n); boolean remove(int n); boolean contains(int n);
+int first(); //return min node 
+int last(); //return max node
+TreeMap<Key, Value> //in key’s increasing order
 
