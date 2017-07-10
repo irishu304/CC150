@@ -1,0 +1,53 @@
+String
+String s = new String(“abcde”);
+String s = new String(a, 1, 3); == String s = new String(“bcd”);
+public int length() : a.length(); // return 5
+
+char a[] = {“a”, “b”, “c”, “d”, “e”};  String s = new String(a);
+char[] toCharArray(); //string->char[]
+void getChars(int start, int end, char c[], int offset);
+
+boolean equals(String s); public boolean equalsIgnoreCase(String s);
+boolean startsWith(String s); public boolean endsWith(String s); 
+int compareTo(String s); //compare Unicode value, a < c, return < 0
+boolean contains(String s);
+
+int indexOf(String s); //first occurrence
+int indexOf(String s, int startpoint);
+int lastIndexOf(String s);
+String substring(int startpoint);
+String substring(int start, int end); //[start, end - 1]
+
+integer parseInt(String s) throws NumberFormatException;
+byte parseByte(String s) throws NumberFormatException;
+String valueOf(int n); //value -> string
+
+StringBuffer s = new StringBuffer(int size);
+StringBuffer s = new StringBuffer(String str);
+StringBuffer append(String str); append(char n);
+char charAt(int n); void setCharAt(int n, char c);
+insert(int index, String str);
+delete(int startIndex, int endIndex);
+replace(int startIndex, int endIndex, String str);
+
+Date
+Date nowTime = new Date(); //Sun Jul 9 18:48:00 EST
+
+Calendar calendar = Calendar.getInstance();
+public final void set(int year, int month, int date, int hour, int minute, int second);
+
+Math
+//contains two static constant E & PI
+long abs(double a); //absolute value
+double max(double a, double b);
+double min(double a, double b);
+double pow(double a, double b) // a ^ b
+double sqrt(double a); //square root
+double log(double a); //log a
+double random(); //random number in (0, 1)
+
+Random random = new Random();
+random.nextInt(); //random integer
+random.nextInt(int n); //random integer in [0, n)
+random.nextBoolean();
+
