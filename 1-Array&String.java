@@ -17,17 +17,17 @@ public class solution {
 //extra space; time complexity O(n)
 public class solution {
 	public boolean isUniqueChars(String str) {
-	if (str.length() > 128) return false;
+		if (str.length() > 128) return false;
 
-	Set<character> set = new HastSet<character>();
-	for (int i = 0; i < str.length(); i++) {
-		if (set.contains(str.charAt(i))) {
-			return false;
+		Set<Character> set = new HastSet<Character>();
+		for (int i = 0; i < str.length(); i++) {
+			if (set.contains(str.charAt(i))) {
+				return false;
+			}
+			set.add(str.charAt(i));
 		}
-		set.add(str.charAt(i));
-	}
-	return true;
-	}
+		return true;
+		}
 }
 
 //boolean array
@@ -74,6 +74,7 @@ String sort(String s) {
 	java.util.Arrays.sort(content);
 	return new String(content);
 }
+
 boolean permutation(String s, String t) {
 	if (s.length() != t.length()) return false;
 	return sort(s).equals(sort(t));
@@ -92,12 +93,12 @@ public String replace(String str) {
 	}
 	return sentence.toString();
 	//convert StringBuilder object to String object
-	}
 }
 
 //scan and replace from the end
 void replace(char[] str, int truelength) {
 	int i =0; index; spacecount = 0;
+	//count space #
 	for (int i = 0; i < truelength; i++) {
 		if (str[i] == " ") {
 			spacecount++;
@@ -256,7 +257,7 @@ boolean oneEditAway(String first, String second) {
 	}
 	String s1 = first.length() < second.length() ? first : second;
 	String s2 = first.length() < second.length() ? second : first;
-        //shorter one -> s1; longer one -> s2
+    //shorter one -> s1; longer one -> s2
     int index1 = 0;
     int index2 = 0;
     boolean foundDifference = false;
@@ -308,8 +309,8 @@ String compress(String str) {
 		count++;
 		if (str.charAt(i) != str.charAt(i + 1) || i + 1 >= str.length()) {
 			compressed.append(str.charAt(i));
-		        compressed.append(count);
-		        count = 0;
+		    compressed.append(count);
+		    count = 0;
 		}
 	}
 	return compressed.length() < str.length() ? compressed.toString() : str;
@@ -382,7 +383,7 @@ boolean isRotation(String s1, String s2) {
 	//check whether same length and non-empty
 	if (len == s2.length() && len > 0) {
 		String s1s1 = s1 + s1;
-		return isSubstring (s1s1, s2);
+		return isSubstring(s1s1, s2);
 	}
 	return false;
 }
