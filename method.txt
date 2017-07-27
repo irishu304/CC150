@@ -1,0 +1,131 @@
+String
+String s = new String(“abcde”);
+String s = new String(a, b, c, d, e);
+int len = s.length(); // return 5
+
+char a[] = {“a”, “b”, “c”, “d”, “e”};  String s = new String(a);
+char[] toCharArray(); //string->char[]
+void getChars(int start, int end, char c[], int offset);
+char c = s.charAt(3); //return d 
+
+String sort(String s) {
+	char[] content = s.toCharArray();
+	java.util.Arrays.sort(content);
+	return new String(content);
+}
+
+boolean equals(String s); public boolean equalsIgnoreCase(String s);
+boolean startsWith(String s); public boolean endsWith(String s); 
+int compareTo(String s); //compare Unicode value, a < c, return < 0
+boolean contains(String s);
+
+int indexOf(String s); //first occurrence
+int indexOf(String s, int startpoint);
+int lastIndexOf(String s);
+String substring(int startpoint);
+String substring(int start, int end); //[start, end - 1]
+
+integer parseInt(String s) throws NumberFormatException;
+byte parseByte(String s) throws NumberFormatException;
+String valueOf(int n); //value -> string
+
+StringBuffer s = new StringBuffer(int size);
+StringBuffer s = new StringBuffer(String str);
+StringBuffer append(String str); append(char n);
+char charAt(int n); void setCharAt(int n, char c);
+insert(int index, String str);
+delete(int startIndex, int endIndex);
+replace(int startIndex, int endIndex, String str);
+
+String joinWords(String[] words) {
+	StringBuilder str = new StringBuilder(); //resizable
+	for(String w : words) {
+		str.append(w);
+	}
+	return str.toString();
+}
+
+Date
+Date nowTime = new Date(); //Sun Jul 9 18:48:00 EST
+
+Calendar calendar = Calendar.getInstance();
+public final void set(int year, int month, int date, int hour, int minute, 
+int second);
+
+Math
+//contains two static constant E & PI
+long abs(double a); //absolute value
+double max(double a, double b);
+double min(double a, double b);
+double pow(double a, double b) // a ^ b
+double sqrt(double a); //square root
+double log(double a); //log a
+double random(); //random number in (0, 1)
+
+Random random = new Random();
+random.nextInt(); //random integer
+random.nextInt(int n); //random integer in [0, n)
+random.nextBoolean();
+
+LinkedList<int> //not in order, simple to insert/delete.    
+int size();
+boolean add(int data); //add node at the end
+boolean remove(int data); //remove first node contains data
+void add(int index, int data);
+void addFirst(int data); void addLast(int data);
+int set(int index, int data); //return data being replaced
+int get(int index); //return data
+int getFirst(); int getLast();
+int indexOf(int data); //return first node contains data, else return -1
+int lastIndexOf(int data); //return last node contains data
+int remove(int index); //delete the node
+int removeFirst(); int removeLast(); //return node’s data
+void clear(); //delete all nodes, get a null linked list
+boolean contains(int data);
+
+//use iterator for shorter time
+Iterator<Integer> iter = list.iterator();
+while (iter.hasNext()) {
+	Integer n = iter.next();
+	System.out.printf(“ “, n.intValue());
+}
+
+public static sort(List<E> list; //sort in increasing order
+public static void shuffle(List<E> list); //shuffling randomly
+public static void rotate(List<E> list, int distance); //positive >>
+public static void reverse(List<E> list);
+//ArrayList: in order, simple to search
+
+Stack
+push(int item);
+int pop();
+int peek(); //return top value, not delete item
+int search(int data); //top index is 1
+boolean empty();
+
+HashMap<Key, Value>
+HashMap<String, Student> hashtable = HashSet<String, Student>();
+boolean isEmpty();
+int size(); 
+boolean containsKey(String key); boolean containsValue(int value);
+put(String key, int value); 
+int get(String key); //return value
+int remove(String key); //remove key/value pair, return value
+
+HashSet实现了Set接口，HashSet仅仅存储对象，不允许集合中有重复的值，set中没有储存相等的对象。public boolean add(Object o)方法用来在Set中添加元素，当元素值重复时则会立即返回false，如果成功添加的话会返回true。
+
+HashMap实现了Map接口，HashMap储存键值对，Map中不允许重复的键。HashMap允许键和值为null。	
+public Object put(Object Key,Object value)方法用来将元素添加到map中。
+Map接口有两个基本的实现，HashMap和TreeMap。TreeMap保存了对象的排列次序，而HashMap则不能。
+HashMap是非synchronized的，但collection框架提供方法能保证HashMap synchronized，这样多个线程同时访问HashMap时，能保证只有一个线程更改Map。
+
+TreeSet<int>
+//left < right, lower level < upper level, in value’s increasing order
+int size();
+boolean isEmpty();
+void clear();
+boolean add(int n); boolean remove(int n); boolean contains(int n);
+int first(); //return min node 
+int last(); //return max node
+TreeMap<Key, Value> //in key’s increasing order
+
