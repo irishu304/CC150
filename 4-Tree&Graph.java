@@ -44,7 +44,7 @@ TreeNode createMinimalBST(int a[], int start, int end) {
 	if (end < start) return null;
 	int mid = (start + end) / 2;
 	TreeNode n = new TreeNode(a[mid]);
-	n.left = createMinimalBST(a, start, mid);
+	n.left = createMinimalBST(a, start, mid - 1 );
 	n.right = createMinimalBST(a, mid + 1, end);
 	return n;
 }
@@ -168,7 +168,7 @@ boolean checkBST(TreeNode n, Integer min, Integer max) {
     }
     return true;
 }
-//O(N) time, O(logN) space
+//O(N) time, O(log N) space
 
 //4.6 Successor
 //three different cases
@@ -294,7 +294,7 @@ public class Project {
     public ArrayList<Project> getChildren() { return children; }
     public int getNumberDependencies() { return dependencies; }
 }
-//O(prject # + dependency #) time
+//O(project # + dependency #) time
 
 //4.8 First Common Ancestor
 //with links to parents
@@ -325,7 +325,7 @@ boolean covers(TreeNode root, TreeNode p) {
 TreeNode getSibling(TreeNode node) {
 	if (node == null || node.parent == null) return null;
 	TreeNode parent = node.parent;
-	parent.left == node ? parent.right : parent.left;
+	return parent.left == node ? parent.right : parent.left;
 }
 //O(t) time, t is size of common ancestor subtree
 //worst case O(n) time, n is nodes # in tree
@@ -519,6 +519,7 @@ int countNode(TreeNode node, int targetSum, int currentSum) {
 int count (TreeNode root, int targetSum) {
 	return count(root, targetSum, 0, new HashMap<Integer, Integer>());
 }
+
 //use hash table to find path # for a specific sum value
 int count(TreeNode node, int targetSum, int runningSum, 
 	      HashMap<Integer, Integer> pathCount) {
