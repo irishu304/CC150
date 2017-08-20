@@ -29,6 +29,10 @@ int lastIndexOf(String s);
 String substring(int startpoint);
 String substring(int start, int end); //[start, end - 1]
 
+String replace(String s1, String s2); //replace all s1 with s2, do not use regular exp
+String replaceAll(String s1, String s2);
+String replaceFirst(String s1, String s2);
+
 Character.getNumericValue(char c); //char -> int
 Integer.parseInt(String s) throws NumberFormatException; //string -> int
 Byte.parseByte(String s) throws NumberFormatException;
@@ -110,10 +114,37 @@ public static void reverse(List<E> list);
 
 Stack
 push(int item);
-int pop();
-int peek(); //return top value, not delete item
-int search(int data); //top index is 1
+pop();
+peek(); //return top value, not delete item
+search(int data); //top index is 1
 boolean empty();
+
+Tree
+Throw exception           no exception
+add();                    offer(); //return false
+remove()		  poll();  //return null
+element()		  peek();  //return null
+DFS-stack, BFS-queue
+
+Set(集合)：
+Set是最简单的一种集合。集合中的对象不按特定的方式排序，存放的是对象的引用，并且没有重复对象。
+Set接口主要实现了两个实现类：
+HashSet: HashSet类按照哈希算法来存取集合中的对象，存取速度比较快
+boolean hashset.contains(val);
+boolean hashset.add(val); //already exists, return false; else add
+boolean hashset.remove(val);
+hashest.size();
+TreeSet: TreeSet类实现了SortedSet接口，能够对集合中的对象进行排序。
+TreeSet<int>
+//left < right, lower level < upper level, in value’s increasing order
+int size();
+boolean isEmpty();
+void clear();
+boolean add(int n); boolean remove(int n); boolean contains(int n);
+int first(); //return min node 
+int last(); //return max node
+
+TreeMap<Key, Value> //in key’s increasing order
 
 HashMap<Key, Value>
 HashMap<String, Student> hashtable = HashSet<String, Student>();
@@ -125,6 +156,8 @@ boolean containsKey(String key); boolean containsValue(int value);
 put(String key, int value); 
 int get(String key); //return value
 int remove(String key); //remove key/value pair, return value
+boolean map.containsKey(key);
+boolean map.containsValue(val);
 
 HashSet实现了Set接口，HashSet仅仅存储对象，不允许集合中有重复的值，set中没有储存相等的对象。
 public boolean add(Object o)方法用来在Set中添加元素，当元素值重复时则会立即返回false，如果成功添加的话会返回true。
@@ -134,13 +167,5 @@ public Object put(Object Key,Object value)方法用来将元素添加到map中�
 Map接口有两个基本的实现，HashMap和TreeMap。TreeMap保存了对象的排列次序，而HashMap则不能。
 HashMap是非synchronized的，但collection框架提供方法能保证HashMap synchronized，这样多个线程同时访问HashMap时，能保证只有一个线程更改Map。
 
-TreeSet<int>
-//left < right, lower level < upper level, in value’s increasing order
-int size();
-boolean isEmpty();
-void clear();
-boolean add(int n); boolean remove(int n); boolean contains(int n);
-int first(); //return min node 
-int last(); //return max node
-TreeMap<Key, Value> //in key’s increasing order
+
 
