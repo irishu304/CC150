@@ -213,6 +213,95 @@ void printPerms(HashMap<Character, Integer> map, String prefix, int remain,
 	}
 }
 
+//8.9 Parenthesis
+Set<String> generateParens(int num) {
+	Set<String> set = new HashSet<String>();
+	if (num == 0) set.add("");
+	else {
+		Set<String> prev = generateParens(num - 1);
+		for (String str: prev) {
+			for (int i = 0; i < str.length(); i++) {
+				if (str.charAt(i) == '(') {
+					String left = str.substring(0, i + 1);
+					String right = str.substring(i + 1);
+					String s = left + "()" + right;
+					set.add(s);
+				}
+			}
+			set.add("()" + str);
+		}
+	}
+	return set;
+}
+
+
+//recursive
+List<String> generateParens(int num) {
+	List<String> list = new ArrayList<String>();
+	addParens(list, "", 0, 0, num);
+	return list;
+}
+
+void addParens(ArrayList<String> list, String prefix, int left, int right,
+			   int num) {
+	if (prefix.length() == 2 * num) {
+		list.add(prefix);
+		return;
+	}
+	if (left < num) addParens(list, prefix + "(", left + 1, right, num);
+	if (right < num) addParens(list, prefix + ")", left, right + 1, num);
+}
+
+//8.10 Paint Fill
+enum Color{Black, White, Red, Yellow, Green};
+boolean PaintFill(Color[][] screen, int row, int col, Color n) {
+	if (row < 0 || row >= screen.length || col < 0 || 
+		col >=screen[].length) return false;
+	if (screen[row][col] == n) return false;
+	screen[row][col] = n;
+	PaintFill(screen, row - 1, col, n); //down
+	PaintFill(screen, row + 1, col, n); //up
+	PaintFill(screen, row, col - 1, n); //left
+	PaintFill(screen, row, col + 1, n); //right
+	return true;
+} 
+
+//8.11 Coins
+int makeChange(int n) {
+	int[] denoms = {25, 10, 5, 1};
+	int[][] map = new int[n + 1][denoms.length]; //precomputed vals
+	//eg. ways of forming 100 cents using 2 quarters
+	return change(n, 0, denoms, map);
+}
+
+int change(int amount, int index, int[] denoms, int[][] map) {
+	if (map[amount][index] > 0) return map[amount][index];
+	if (index > denoms.length - 1) return 1; //one denom left
+	//index indicates the type of coin that will use later
+	int denomAmount = denoms[index];
+	int ways = 0;
+	for (int i = 0; i * denomAmount <= amount; i++) {
+		int remain = amount - i * denomAmount;
+		ways += change(remain, index + 1, denoms, map);
+	}//eg. for 100 cents, have used 2 quarters, use 3 other coins
+	map[amount][index] = ways;
+	return ways;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
