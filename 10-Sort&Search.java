@@ -105,9 +105,8 @@ int search(Listy list, int value) {
 }
 
 int binarySearch(Listy list, int value, int low, int high) {
-	int mid;
 	while (low <= high) {
-		mid = (low + high) / 2;
+		int mid = (low + high) / 2;
 		int middle = list.elementAt(mid);
 		if (middle > value || middle == -1) {
 			high = mid - 1;
@@ -135,7 +134,7 @@ int search(String[] strings, String str, int first, int last) {
 		int left = mid - 1;
 		int right = mid + 1;
 		while (true) {
-			if (left < first && right > last) {
+			if (left < first && right > last) { //out of bound
 				return -1;
 			} else if (right <= last && !strings[right].isEmpty()) {
 				mid = right;
@@ -321,12 +320,13 @@ void sortPV(int[] array) {
 		if (i != biggest) {
 			swap(array, i, biggestIndex);
 		}
+		//put the biggest element in the middle
 	}
 }
 
 int biggestIndex(int[] array, int a, int b, int c) {
 	int len = array.length;
-	int aValue = (a >= 0 && a < len ? array[a] : Integer.MIN_VALUE); //???
+	int aValue = (a >= 0 && a < len ? array[a] : Integer.MIN_VALUE); 
 	int bValue = (b >= 0 && b < len ? array[b] : Integer.MIN_VALUE);
 	int cValue = (c >= 0 && c < len ? array[c] : Integer.MIN_VALUE);
 
@@ -334,6 +334,7 @@ int biggestIndex(int[] array, int a, int b, int c) {
 	if (max == aValue) return a;
 	else if (max == bValue) return b;
 	else return c;
+	//find index of biggest elements among three adjacent elements	
 }
 
 void swap(int[] array, int left, int right) {
