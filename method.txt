@@ -173,5 +173,15 @@ public Object put(Object Key,Object value)方法用来将元素添加到map中�
 Map接口有两个基本的实现，HashMap和TreeMap。TreeMap保存了对象的排列次序，而HashMap则不能。
 HashMap是非synchronized的，但collection框架提供方法能保证HashMap synchronized，这样多个线程同时访问HashMap时，能保证只有一个线程更改Map。
 
-
+Comparator:
+int compare(Object o1, Object o2) 返回一个基本类型的整型 
+return 1 if o2 should be before o1 
+return -1 if o1 should be before o2
+return 0 otherwise
+1) 如果要按照升序排序， 
+则o1<o2，返回-1（负数），
+相等返回0，o1>o2返回1（正数）
+2) 如果要按照降序排序 
+则o1<o2，返回1（正数），相等返回0，
+o1>o2返回-1（负数） 
 
