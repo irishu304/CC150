@@ -15,8 +15,6 @@ void deleteDups(LinkedListNode n) {
 		//node previous & n both move forward
 	}
 }
-//HashSet instruction
-//http://jingyan.baidu.com/article/48206aead61355216bd6b34a.html
 
 //no temporary buffer
 void deleteDups(LinkedListNode head) {
@@ -35,7 +33,7 @@ void deleteDups(LinkedListNode head) {
 		current = current.next;
 	}
 }
-//O(1) space, O(n^2) time
+//two loops, O(1) space, O(n^2) time
 
 //2.2 Return Kth to Last
 // Recursive???
@@ -105,18 +103,18 @@ LinkedListNode partition(LinkedListNode node, int x) {
     		else {
     			beforeEnd.next = node;
     			beforeEnd = node;
-    		}
+    		} 
     	}
     	else {
     		if (afterStart == null) {
     			afterStart = node;
-    			afterEnd = afterEnd;
+    			afterEnd = afterStart;
     		}
     		else {
     			afterEnd.next = node;
     			afterEnd = node;
     		}
-    	}
+    	} //only add nodes after beforeEnd and afterEnd
     	node = next;
     }
 
@@ -126,7 +124,7 @@ LinkedListNode partition(LinkedListNode node, int x) {
     	beforeEnd.next = afterStart;
     	return beforeStart;
     }
-}
+} //O(n) time
 
 //less insert at head, greater insert at tail
 LinkedListNode partition(LinkedListNode node, int x) {
@@ -138,16 +136,16 @@ LinkedListNode partition(LinkedListNode node, int x) {
 		if (node.data < x) {
 			head.next = node;
 			head = node;
-		}
+		} //move head pointer backward
 		else {
 			node.next = tail;
 			tail = node;
-		}
+		} //move tail pointer forward
 		node = next;
 	}
 	tail.next = null;
 	return head;
-}
+} //O(n) time
 
 //2.5 Sum Lists
 //start from lower digit
@@ -171,13 +169,14 @@ LinkedListNode sum(LinkedListNode l1, LinkedListNode l2, int carry) {
 	return result;
 }
 
-//???
+//another approach
 LinkedListNode sum(LinkedListNode l1, LinkedListNode l2) {
 	if (l1 == null && l2 == null) return null;
 	if (l1 != null && l2 == null) return l1;
 	if (l1 == null && l2 != null) return l2;
 
 	LinkedListNode result = new LinkedListNode();
+	LinkedListNode node = result;
 	int carry = 0;
 	while (l1 != null || l2 != null || carry != 0) {
 		int sum = 0;
@@ -194,7 +193,7 @@ LinkedListNode sum(LinkedListNode l1, LinkedListNode l2) {
 		carry = sum / 10;
 		result = result.next;
 	}
-	return result;
+	return node;
 }
 
 //start from higher digit
@@ -213,7 +212,7 @@ LinkedListNode addLists(LinkedListNode l1, LinkedListNode l2) {
 	else {
 		l2 = padList(l2, len1 - len2);
 	}
-	//add a list, if there was a carry value, insert it at the front of list
+	//add a list, if there was a carry value, insert at the front of list
 	//if not, just return the linked list
 	Partialsum addition = addListHelper(l1, l2);
 	if (addition.carry == 0) {
@@ -242,9 +241,9 @@ Partialsum addListsHelper(LinkedListNode l1, LinkedListNode l2) {
 	return addition;
 }
 
-LinkedListNode padList(LinkedListNode n, int padding) {
+LinkedListNode padList(LinkedListNode n, int padLen) {
 	LinkedListNode head = n;
-	for (int i = 0; i < padding; i++) {
+	for (int i = 0; i < padLen; i++) {
 		head = insertBefore(head, 0);
 	}
 	return head;
@@ -275,6 +274,7 @@ LinkedListNode reverseAndClone(LinkedListNode node) {
 		node = node.next;
 		//insert in front
 	}
+	return head;
 }
 
 boolean isEqual(LinkedListNode one, LinkedListNode two) {
@@ -284,7 +284,7 @@ boolean isEqual(LinkedListNode one, LinkedListNode two) {
 		two = two.next;
 	}
 	return one == null && two == null;
-}
+} //O(n) time, O(n) space
 
 //iterate
 boolean isPalindrome(LinkedListNode head) {
@@ -313,7 +313,7 @@ boolean isPalindrome(LinkedListNode head) {
 		slow = slow.next;
 	}
 	return true;
-}
+} //O(n) time, O(n) space
 
 //2.7 Intersection
 LinkedListNode intersection(LinkedListNode list1, LinkedListNode list2) {
