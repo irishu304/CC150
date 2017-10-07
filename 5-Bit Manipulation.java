@@ -4,7 +4,7 @@ int updateBits(int n, int m, int i, int j) { //consider 8-bit int
 	int left = allOnes << (j + 1); //1s before position j
 	int right = (1 << i) - 1; //1s after position i
 	int mask = left | right;
-	int n_cleared = n & mask; //clear bits through j to i
+	int n_cleared = n & mask; //clear bits through i to j
 	int m_shifted = m << i;
 	return n_cleared | m_shifted; //leave position after i unchanged
 }
@@ -51,7 +51,7 @@ int flipBit(int a) {
 	}
 	return maxLen;
 }
-//O(b) time, sequence length b, O(1) memory
+//O(n) time, sequence length n, O(1) space
 
 //5.4 Next Number
 //get next largest number
@@ -135,7 +135,7 @@ void drawLine(byte[] screen, int width, int x1, int x2, int y) {
 	} //set full bytes
 
 	byte start_mask = (byte) (0xFF >> start_offset);
-	byte end_mask = (byte) ~(0xFF >> (end_offset) + 1);
+	byte end_mask = (byte) ~(0xFF >> (end_offset + 1));
 
 	//set start and end of the line
 	if ((x1 / 8) == (x2 / 8)) { //x1 and x2 are in the same byte
