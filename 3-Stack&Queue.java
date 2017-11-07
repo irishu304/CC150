@@ -1,4 +1,4 @@
-//3.1Three in One
+//3.1 Three in One
 //fixed division
 class FixedMultiStack {
 	private int numberOfStacks;
@@ -18,7 +18,7 @@ class FixedMultiStack {
 		if (isFull(stackNum)) {
 			throw new FullStackException();
 		} 
-        //increase size of stack stackNum and update top value
+        //increase the size of stack stackNum and update its top value
 		sizes[stackNum]++;
 		values[indexOfTop(stackNum)] = value;
 	}
@@ -28,9 +28,8 @@ class FixedMultiStack {
 		if (isEmpty(stackNum)) {
 			throw new EmptyStackException();
 		}
-		int topIndex = indexOfTop(stackNum);
-		int value = values[topIndex]; //get top value
-		values[topIndex] = 0; //clear
+		int value = values[indexOfTop(stackNum)]; //get top value
+		values[indexOfTop(stackNum)] = 0; //clear
 		sizes[stackNum]--; //shrink
 		return value;
 	}
@@ -154,7 +153,7 @@ public class SetOfStacks {
 		return stacks.get(stacks.size() - 1);
 	}
 
-	public void push (int v) {
+	public void push (int val) {
 		Stack last = stacks.getLastStack();
 		if (last != null && !last.isFull()) {
 			last.push(v);
@@ -169,9 +168,9 @@ public class SetOfStacks {
 	public void pop() {
 		Stack last = stacks.getLastStack();
 		if (last == null)  throw new EmptyStackException();
-		int v = last.pop();
+		int val = last.pop();
 		if (last.size == 0) stacks.remove(stacks.size() - 1);
-		return v;
+		return val;
 	}
 
 	public boolean isEmpty() {
@@ -204,7 +203,7 @@ public class Stack {
 	public Node top, bottom;
 	public int size = 0;
 
-	public Stack(int capactiy) { this.capacity = capacity};
+	public Stack(int capactiy) {this.capacity = capacity};
 	public boolean isFull() { return capacity == size};
 
 	public void join(Node above, Node below) {
@@ -259,7 +258,7 @@ public class MyQueue<T> {
 		stackNewest.push(value);
 	}
 
-	//shift elements from stackNewest into stackOldest
+	//shift all elements from stackNewest into stackOldest
 	//so we always do operations on stackOldest
 	private void shiftStacks() {
 		if (stackOldest.isEmpty()) {
@@ -294,6 +293,7 @@ void sort(Stack<Integer> s) {
 		r.push(temp);
 	}
     
+    //r is in decreasing order, s is in increasing order
     //copy the elements from r back into s
     while(!r.isEmpty()) {
     	s.push(r.pop());
