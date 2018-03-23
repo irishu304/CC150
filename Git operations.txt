@@ -1,0 +1,34 @@
+#create local repo
+$git init
+$git status
+$git add octocat.txt	#been staged, not in repository yet
+$git commit -m "Add octocat"	#commit
+$git add '*.txt'	#add many files of the same type
+$git commit -m 'Add all octocat txt files'	#commit to branch
+$git log	#check commit logs
+
+#push to server
+$git remote add origin https://github.com/try-git/try_git.git	#create remote repo
+$git push -u origin master	#use 'git push' next time
+#-u: remember parameters. origin: remote repo. master: default local branch
+
+#pull remotely to local machine
+#Use the command 'git stash' to stash your changes
+#'git stash apply' to re-apply your changes after your pull.
+$git pull origin master		#check changes on GitHub and pull down any new changes
+$git diff	#look at diff from last commit
+#'git diff HEAD'	#look at diff from most recent commit
+$git diff --staged	#see changes in staged files
+$git reset octofamily/octodog.txt	#unstage file
+$git checkout -- octocat.txt	#go back to last commit, get rid of all changes after last commit for octocat.txt
+
+#branch out
+$git branch clean_up	#copy to another branch
+#use 'git branch' to see branches
+$git checkout clean_up	#switch to clean_up branch
+$git rm '*.txt'	#remove all txt files
+$git commit -m "Remove all the cats"	#commit changes
+$git checkout master
+$git merge clean_up	#merge clean_up to master
+$git branch -d clean_up	#delete branch clean_up
+$git push
