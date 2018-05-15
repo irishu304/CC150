@@ -32,3 +32,5 @@ $git checkout master
 $git merge clean_up	#merge clean_up to master
 $git branch -d clean_up	#delete branch clean_up
 $git push
+
+test
